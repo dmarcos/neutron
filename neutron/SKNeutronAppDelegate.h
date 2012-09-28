@@ -1,5 +1,5 @@
 //
-//  SKAppDelegate.h
+//  SKNeutronAppDelegate.h
 //  neutron
 //
 //  Created by Diego Marcos Segura on 9/13/12.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SKAppDelegate : UIResponder <UIApplicationDelegate>
+@interface SKNeutronAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

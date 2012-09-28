@@ -1,5 +1,5 @@
 //
-//  SKViewController.h
+//  SKNeutronMainViewController.h
 //  neutron
 //
 //  Created by Diego Marcos Segura on 9/13/12.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SKViewController : UIViewController
+@interface SKNeutronMainViewController : UIViewController
 
 @property (nonatomic) CGRect viewFrame;
 

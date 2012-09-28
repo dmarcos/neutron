@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SKAppDelegate.h"
+#import "SKNeutronAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, @"SKAppDelegate");
+        return UIApplicationMain(argc, argv, nil, @"SKNeutronAppDelegate");
     }
 }
