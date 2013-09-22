@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ExternalAccessory/ExternalAccessory.h>
 
-@interface SKDosimeterDataView : UIView
-    @property int sensorTemperature;
-    @property int ambientTemperature;
-    @property int timeOverThreshold;
-    @property int timeStamp;
+@class SKDosimeterSessionController;
+
+@interface SKDosimeterDataView : UIView {
+    EAAccessory* dosimeter;
+    SKDosimeterSessionController* _sessionController;
+}
+
+@property int sensorTemperature;
+@property int ambientTemperature;
+@property int timeOverThreshold;
+@property int timeStamp;
+
 @end

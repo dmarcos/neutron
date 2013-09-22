@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6CE368A717E66D9D00B937F3 /* SKDosimeterSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */; };
+		6CE368A917E66ED700B937F3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE368A817E66ED700B937F3 /* ExternalAccessory.framework */; };
 		B24F0C58160A0D16000081B8 /* SKDosimeterDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F0C57160A0D16000081B8 /* SKDosimeterDataView.m */; };
 		B28DC145160A0A7600471C27 /* SKDosimeterData.m in Sources */ = {isa = PBXBuildFile; fileRef = B28DC144160A0A7600471C27 /* SKDosimeterData.m */; };
 		B2B5230716027FC6004686BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B5230616027FC6004686BE /* UIKit.framework */; };
@@ -19,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6CE368A517E66D9D00B937F3 /* SKDosimeterSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDosimeterSessionController.h; sourceTree = "<group>"; };
+		6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDosimeterSessionController.m; sourceTree = "<group>"; };
+		6CE368A817E66ED700B937F3 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		B24F0C56160A0D16000081B8 /* SKDosimeterDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDosimeterDataView.h; sourceTree = "<group>"; };
 		B24F0C57160A0D16000081B8 /* SKDosimeterDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDosimeterDataView.m; sourceTree = "<group>"; };
 		B28DC143160A0A7600471C27 /* SKDosimeterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDosimeterData.h; sourceTree = "<group>"; };
@@ -44,6 +49,7 @@
 			files = (
 				B2B5230716027FC6004686BE /* UIKit.framework in Frameworks */,
 				B2B5230916027FC6004686BE /* Foundation.framework in Frameworks */,
+				6CE368A917E66ED700B937F3 /* ExternalAccessory.framework in Frameworks */,
 				B2B5230B16027FC6004686BE /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +77,7 @@
 		B2B5230516027FC6004686BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6CE368A817E66ED700B937F3 /* ExternalAccessory.framework */,
 				B2B5230616027FC6004686BE /* UIKit.framework */,
 				B2B5230816027FC6004686BE /* Foundation.framework */,
 				B2B5230A16027FC6004686BE /* CoreGraphics.framework */,
@@ -81,8 +88,8 @@
 		B2B5230C16027FC6004686BE /* neutron */ = {
 			isa = PBXGroup;
 			children = (
-				B2B523291602814F004686BE /* main.m */,
-				B2B5232216028137004686BE /* SupportingFiles */,
+				6CE368A517E66D9D00B937F3 /* SKDosimeterSessionController.h */,
+				6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */,
 				B2B5231516027FC6004686BE /* SKNeutronAppDelegate.h */,
 				B2B5231616027FC6004686BE /* SKNeutronAppDelegate.m */,
 				B24F0C56160A0D16000081B8 /* SKDosimeterDataView.h */,
@@ -91,6 +98,8 @@
 				B2B5232C16028230004686BE /* SKNeutronMainViewController.m */,
 				B28DC143160A0A7600471C27 /* SKDosimeterData.h */,
 				B28DC144160A0A7600471C27 /* SKDosimeterData.m */,
+				B2B523291602814F004686BE /* main.m */,
+				B2B5232216028137004686BE /* SupportingFiles */,
 			);
 			path = neutron;
 			sourceTree = "<group>";
@@ -173,6 +182,7 @@
 				B2B5232D16028230004686BE /* SKNeutronMainViewController.m in Sources */,
 				B28DC145160A0A7600471C27 /* SKDosimeterData.m in Sources */,
 				B24F0C58160A0D16000081B8 /* SKDosimeterDataView.m in Sources */,
+				6CE368A717E66D9D00B937F3 /* SKDosimeterSessionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +258,7 @@
 				GCC_PREFIX_HEADER = "neutron/SupportingFiles/neutron-Prefix.pch";
 				INFOPLIST_FILE = "neutron/SupportingFiles/neutron-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -259,6 +270,7 @@
 				GCC_PREFIX_HEADER = "neutron/SupportingFiles/neutron-Prefix.pch";
 				INFOPLIST_FILE = "neutron/SupportingFiles/neutron-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
