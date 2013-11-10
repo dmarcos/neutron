@@ -43,6 +43,8 @@
 	self->_dosimeterDataView = [[SKDosimeterDataView alloc] initWithFrame: self->_viewFrame];
     self.view = self->_dosimeterDataView;
     self.view.backgroundColor = [UIColor purpleColor];
+    
+    _dosimeterSession = [SKDosimeterSessionController sharedController];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -79,6 +81,12 @@
     
     return false;
 }
+/*
++ (void) isNeutronDeviceConnected {
+    NSArray* accessoryList = [[EAAccessoryManager sharedAccessoryManager] connectedAccessories];
+    
+}*/
+
 
 - (void) _accessoryDidConnect:(NSNotification*) notification {
     NSLog(@"Checking if connected device is a Stellarkite dosimeter...");
@@ -95,15 +103,19 @@
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
-        [alert show];
+
+        [_dosimeterSession openSession: connectedAccessory withProtocolString: SK_PROTOCOL_STRING];
+        NSInteger value = [_dosimeterSession getTemperature];
+        NSLog(@"TEMPERATURE VALUE: %d", value);
         
-        [_dosimeterSession openSession];
+        [alert show];
     }
 }
 
 
 - (void) _accessoryDidDisconnect:(NSNotification *)notification {
     EAAccessory* disconnectedAccessory = [[notification userInfo] objectForKey:EAAccessoryKey];
+    
     if ([[self class] isNeutronDevice: disconnectedAccessory]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Device connection"
                                                         message:@"Neutron device has been disconnected..."

@@ -16,11 +16,30 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
 
 #pragma mark Internal
 
+- (NSInteger) getTemperature {
+    NSMutableData* data = [[NSMutableData alloc] init];
+    uint16_t op = (uint16_t) 0x4000;
+    
+    [data appendBytes:(void*)&op length:2];
+    [self writeData:data];
+    
+    NSData* temperature = [self readData:6];
+    uint64_t temperatureValue;
+    [temperature getBytes: &temperatureValue length: sizeof(temperatureValue)];
+    
+    return (temperatureValue & 0x000000000000FFFF);
+}
+
 // low level write method - write data to the accessory while there is space available and data to write
 - (void)_writeData {
     while (([[_session outputStream] hasSpaceAvailable]) && ([_writeData length] > 0))
     {
+        NSLog(@"DATA to write: %d", [_writeData length]);
+        
         NSInteger bytesWritten = [[_session outputStream] write:[_writeData bytes] maxLength:[_writeData length]];
+        
+        NSLog(@"DATA bytes written: %d", bytesWritten);
+        
         if (bytesWritten == -1)
         {
             NSLog(@"write error");
@@ -65,25 +84,18 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
 - (void)dealloc
 {
     [self closeSession];
-    [self setupControllerForAccessory:nil withProtocolString:nil];
 
     //[super dealloc];
 }
 
-// initialize the accessory with the protocolString
-- (void)setupControllerForAccessory:(EAAccessory *)accessory withProtocolString:(NSString *)protocolString
-{
-    //[_accessory release];
-    //_accessory = [accessory retain];
-    //[_protocolString release];
-    _protocolString = [protocolString copy];
-}
-
 // open a session with the accessory and set up the input and output stream on the default run loop
-- (BOOL)openSession
+- (BOOL)openSession: (EAAccessory *)accessory withProtocolString:(NSString *)protocolString
 {
+    _accessory = accessory;
+    _protocolString = protocolString;
+    
     [_accessory setDelegate:self];
-    _session = [[EASession alloc] initWithAccessory:_accessory forProtocol:_protocolString];
+    _session = [[EASession alloc] initWithAccessory:accessory forProtocol:protocolString];
 
     if (_session)
     {

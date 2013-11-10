@@ -20,17 +20,18 @@ extern NSString *SKDosimeterSessionDataReceivedNotification;
     NSMutableData *_readData;
 }
 
-+ (SKDosimeterSessionController *) sharedController;
++ (SKDosimeterSessionController*) sharedController;
 
-- (void) setupControllerForAccessory:(EAAccessory *)accessory withProtocolString:(NSString *)protocolString;
-
-- (BOOL) openSession;
+- (BOOL) openSession: (EAAccessory *)accessory withProtocolString:(NSString *)protocolString;
 - (void) closeSession;
 
 - (void) writeData:(NSData *)data;
 
 - (NSUInteger) readBytesAvailable;
 - (NSData *) readData:(NSUInteger)bytesToRead;
+
+- (NSInteger) getTemperature;
+
 
 @property (nonatomic, readonly) EAAccessory *accessory;
 @property (nonatomic, readonly) NSString *protocolString;
