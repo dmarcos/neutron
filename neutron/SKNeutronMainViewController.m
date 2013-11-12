@@ -26,25 +26,33 @@
 @synthesize viewFrame = _viewFrame;
 
 - (void) loadView {
-    
     // Listen to accessory connection
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidConnect:) name:EAAccessoryDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_accessoryDidDisconnect:) name:EAAccessoryDidDisconnectNotification object:nil];
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
     
-    
+    // Listen to new temperature data
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_temperatureDataReceived:) name:SKDosimeterSessionDataReceivedNotification object:nil];
     
     _dosimeterData = [[SKDosimeterData alloc] init];
     [_dosimeterData addObserver:self forKeyPath:@"sensorTemperature" options:NSKeyValueObservingOptionNew context:nil];
-    [_dosimeterData addObserver:self forKeyPath:@"ambientTemperature" options:NSKeyValueObservingOptionNew context:nil];
-    [_dosimeterData addObserver:self forKeyPath:@"timeOverThreshold" options:NSKeyValueObservingOptionNew context:nil];
-    [_dosimeterData addObserver:self forKeyPath:@"timeStamp" options:NSKeyValueObservingOptionNew context:nil];
+//    [_dosimeterData addObserver:self forKeyPath:@"ambientTemperature" options:NSKeyValueObservingOptionNew context:nil];
+//    [_dosimeterData addObserver:self forKeyPath:@"timeOverThreshold" options:NSKeyValueObservingOptionNew context:nil];
+//    [_dosimeterData addObserver:self forKeyPath:@"timeStamp" options:NSKeyValueObservingOptionNew context:nil];
     
 	self->_dosimeterDataView = [[SKDosimeterDataView alloc] initWithFrame: self->_viewFrame];
     self.view = self->_dosimeterDataView;
     self.view.backgroundColor = [UIColor purpleColor];
     
+    
+    // Instantiate Dosimeter Controller
     _dosimeterSession = [SKDosimeterSessionController sharedController];
+ 
+}
+
+- (void) viewDidLoad {
+    // Statusbar color
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -57,9 +65,9 @@
                        context:(void *)context
 {
     self->_dosimeterDataView.sensorTemperature = self->_dosimeterData.sensorTemperature;
-    self->_dosimeterDataView.ambientTemperature = self->_dosimeterData.ambientTemperature;
-    self->_dosimeterDataView.timeOverThreshold = self->_dosimeterData.timeOverThreshold;
-    self->_dosimeterDataView.timeStamp = self->_dosimeterData.timeStamp;
+//    self->_dosimeterDataView.ambientTemperature = self->_dosimeterData.ambientTemperature;
+//    self->_dosimeterDataView.timeOverThreshold = self->_dosimeterData.timeOverThreshold;
+//    self->_dosimeterDataView.timeStamp = self->_dosimeterData.timeStamp;
     [self->_dosimeterDataView setNeedsDisplay];
 }
 
@@ -98,17 +106,16 @@
               [[connectedAccessory protocolStrings] objectAtIndex:0],
               [connectedAccessory manufacturer]);
         
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Device connection"
-                                                        message:@"Neutron device has been connected!"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Device connection"
+//                                                        message:@"Neutron device has been connected!"
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
 
         [_dosimeterSession openSession: connectedAccessory withProtocolString: SK_PROTOCOL_STRING];
-        NSInteger value = [_dosimeterSession getTemperature];
-        NSLog(@"TEMPERATURE VALUE: %d", value);
+        //[_dosimeterSession requestTemperature];
         
-        [alert show];
+//        [alert show];
     }
 }
 
@@ -124,6 +131,11 @@
                                               otherButtonTitles:nil];
         [alert show];
     }
+}
+
+- (void) _temperatureDataReceived: (NSNotification *)notification {
+    NSNumber* temperature = [[notification userInfo] objectForKey:@"Temperature"];
+    self->_dosimeterData.sensorTemperature = (int) [temperature unsignedIntValue];
 }
 
 

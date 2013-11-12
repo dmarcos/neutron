@@ -8,7 +8,9 @@
 #import <Foundation/Foundation.h>
 #import <ExternalAccessory/ExternalAccessory.h>
 
-extern NSString *SKDosimeterSessionDataReceivedNotification;
+#import "DS18B20_owm.h"
+
+extern NSString* SKDosimeterSessionDataReceivedNotification;
 
 // NOTE: EADSessionController is not threadsafe, calling methods from different threads will lead to unpredictable results
 @interface SKDosimeterSessionController : NSObject <EAAccessoryDelegate, NSStreamDelegate> {
@@ -30,8 +32,7 @@ extern NSString *SKDosimeterSessionDataReceivedNotification;
 - (NSUInteger) readBytesAvailable;
 - (NSData *) readData:(NSUInteger)bytesToRead;
 
-- (NSInteger) getTemperature;
-
+- (void) requestTemperature;
 
 @property (nonatomic, readonly) EAAccessory *accessory;
 @property (nonatomic, readonly) NSString *protocolString;

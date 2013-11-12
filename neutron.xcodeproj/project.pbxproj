@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C0AA2EE183005B100585F7F /* DS18B20_owm.c in Sources */ = {isa = PBXBuildFile; fileRef = 6C0AA2EC183005B100585F7F /* DS18B20_owm.c */; };
 		6C9A7F2517EF837600032CF9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9A7F2417EF837600032CF9 /* Default-568h@2x.png */; };
 		6CE368A717E66D9D00B937F3 /* SKDosimeterSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */; };
 		6CE368A917E66ED700B937F3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE368A817E66ED700B937F3 /* ExternalAccessory.framework */; };
@@ -22,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C0AA2EC183005B100585F7F /* DS18B20_owm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DS18B20_owm.c; sourceTree = "<group>"; };
+		6C0AA2ED183005B100585F7F /* DS18B20_owm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DS18B20_owm.h; sourceTree = "<group>"; };
 		6C9A7F2417EF837600032CF9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6CE368A517E66D9D00B937F3 /* SKDosimeterSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDosimeterSessionController.h; sourceTree = "<group>"; };
 		6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDosimeterSessionController.m; sourceTree = "<group>"; };
@@ -91,6 +94,8 @@
 		B2B5230C16027FC6004686BE /* neutron */ = {
 			isa = PBXGroup;
 			children = (
+				6C0AA2EC183005B100585F7F /* DS18B20_owm.c */,
+				6C0AA2ED183005B100585F7F /* DS18B20_owm.h */,
 				6CE368A517E66D9D00B937F3 /* SKDosimeterSessionController.h */,
 				6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */,
 				B2B5231516027FC6004686BE /* SKNeutronAppDelegate.h */,
@@ -187,6 +192,7 @@
 				B28DC145160A0A7600471C27 /* SKDosimeterData.m in Sources */,
 				B24F0C58160A0D16000081B8 /* SKDosimeterDataView.m in Sources */,
 				6CE368A717E66D9D00B937F3 /* SKDosimeterSessionController.m in Sources */,
+				6C0AA2EE183005B100585F7F /* DS18B20_owm.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

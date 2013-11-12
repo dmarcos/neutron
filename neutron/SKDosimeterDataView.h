@@ -17,8 +17,8 @@
 }
 
 @property int sensorTemperature;
-@property int ambientTemperature;
-@property int timeOverThreshold;
-@property int timeStamp;
+//@property int ambientTemperature;
+//@property int timeOverThreshold;
+//@property int timeStamp;
 
 @end

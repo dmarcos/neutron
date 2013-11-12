@@ -16,18 +16,12 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
 
 #pragma mark Internal
 
-- (NSInteger) getTemperature {
+- (void) requestTemperature {
     NSMutableData* data = [[NSMutableData alloc] init];
     uint16_t op = (uint16_t) 0x4000;
-    
+
     [data appendBytes:(void*)&op length:2];
     [self writeData:data];
-    
-    NSData* temperature = [self readData:6];
-    uint64_t temperatureValue;
-    [temperature getBytes: &temperatureValue length: sizeof(temperatureValue)];
-    
-    return (temperatureValue & 0x000000000000FFFF);
 }
 
 // low level write method - write data to the accessory while there is space available and data to write
@@ -53,7 +47,7 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
 }
 
 // low level read method - read data while there is data and space available in the input buffer
-- (void)_readData {
+- (void) _readData {
 #define EAD_INPUT_BUFFER_SIZE 128
     uint8_t buf[EAD_INPUT_BUFFER_SIZE];
     while ([[_session inputStream] hasBytesAvailable])
@@ -63,10 +57,26 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
             _readData = [[NSMutableData alloc] init];
         }
         [_readData appendBytes:(void *)buf length:bytesRead];
-        //NSLog(@"read %d bytes from input stream", bytesRead);
+        NSLog(@"read %d bytes from input stream", bytesRead);
     }
+    
+    NSLog(@"TEMPERATURE: %d", [self _humanReadeableTemperature: buf]);
+    
+    NSDictionary* userInfo;
+    userInfo = [NSDictionary dictionaryWithObject: [NSNumber numberWithInteger:[self _humanReadeableTemperature: buf]]
+                                           forKey: @"Temperature"];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:SKDosimeterSessionDataReceivedNotification object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SKDosimeterSessionDataReceivedNotification object:self userInfo:userInfo];
+}
+
+- (NSInteger) _humanReadeableTemperature:(uint8_t*)temperatureBytes {
+    uint8_t high = temperatureBytes[2];
+    uint8_t low = temperatureBytes[3];
+    
+    NSLog(@"TEMPHEX: low:%x, high:%x", low, high);
+    NSLog(@"TEMPDEC: %d", DS18B20_Temperature(low, high, 0x0c).temp);
+    
+    return DS18B20_Temperature(low, high, 0x0c).temp;
 }
 
 #pragma mark Public Methods
@@ -179,11 +189,13 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
             break;
         case NSStreamEventOpenCompleted:
             break;
-        case NSStreamEventHasBytesAvailable:
+        case NSStreamEventHasBytesAvailable: {
             [self _readData];
             break;
+        }
         case NSStreamEventHasSpaceAvailable:
-            [self _writeData];
+            //[self _writeData];
+            [self requestTemperature];
             break;
         case NSStreamEventErrorOccurred:
             break;
