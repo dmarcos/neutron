@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ExternalAccessory/ExternalAccessory.h>
 
-@interface SKNeutronMainViewController : UIViewController
+@interface SKNeutronMainViewController : UIViewController {
+}
 
 @property (nonatomic) CGRect viewFrame;
+
++ (BOOL) isNeutronDevice:(EAAccessory*) accessory;
++ (EAAccessory*) isNeutronDeviceConnected;
 
 @end
