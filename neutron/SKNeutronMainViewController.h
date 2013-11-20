@@ -15,5 +15,6 @@
 @property (nonatomic) CGRect viewFrame;
 
 + (BOOL) isNeutronDevice:(EAAccessory*) accessory;
++ (EAAccessory*) isNeutronDeviceConnected;
 
 @end

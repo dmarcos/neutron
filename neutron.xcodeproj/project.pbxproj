@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6C0AA2EE183005B100585F7F /* DS18B20_owm.c in Sources */ = {isa = PBXBuildFile; fileRef = 6C0AA2EC183005B100585F7F /* DS18B20_owm.c */; };
-		6C9A7F2517EF837600032CF9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9A7F2417EF837600032CF9 /* Default-568h@2x.png */; };
+		6CAD25CA183C655500EC1AD4 /* SKOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CAD25C9183C655500EC1AD4 /* SKOperation.m */; };
+		6CAD25FD183C928700EC1AD4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CAD25FC183C928700EC1AD4 /* Images.xcassets */; };
 		6CE368A717E66D9D00B937F3 /* SKDosimeterSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */; };
 		6CE368A917E66ED700B937F3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE368A817E66ED700B937F3 /* ExternalAccessory.framework */; };
 		B24F0C58160A0D16000081B8 /* SKDosimeterDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F0C57160A0D16000081B8 /* SKDosimeterDataView.m */; };
@@ -25,7 +26,9 @@
 /* Begin PBXFileReference section */
 		6C0AA2EC183005B100585F7F /* DS18B20_owm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DS18B20_owm.c; sourceTree = "<group>"; };
 		6C0AA2ED183005B100585F7F /* DS18B20_owm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DS18B20_owm.h; sourceTree = "<group>"; };
-		6C9A7F2417EF837600032CF9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6CAD25C8183C655500EC1AD4 /* SKOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKOperation.h; sourceTree = "<group>"; };
+		6CAD25C9183C655500EC1AD4 /* SKOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKOperation.m; sourceTree = "<group>"; };
+		6CAD25FC183C928700EC1AD4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		6CE368A517E66D9D00B937F3 /* SKDosimeterSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDosimeterSessionController.h; sourceTree = "<group>"; };
 		6CE368A617E66D9D00B937F3 /* SKDosimeterSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDosimeterSessionController.m; sourceTree = "<group>"; };
 		6CE368A817E66ED700B937F3 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
@@ -65,7 +68,6 @@
 		B2B522F716027FC6004686BE = {
 			isa = PBXGroup;
 			children = (
-				6C9A7F2417EF837600032CF9 /* Default-568h@2x.png */,
 				B2B5230C16027FC6004686BE /* neutron */,
 				B2B5230516027FC6004686BE /* Frameworks */,
 				B2B5230316027FC6004686BE /* Products */,
@@ -106,6 +108,8 @@
 				B2B5232C16028230004686BE /* SKNeutronMainViewController.m */,
 				B28DC143160A0A7600471C27 /* SKDosimeterData.h */,
 				B28DC144160A0A7600471C27 /* SKDosimeterData.m */,
+				6CAD25C8183C655500EC1AD4 /* SKOperation.h */,
+				6CAD25C9183C655500EC1AD4 /* SKOperation.m */,
 				B2B523291602814F004686BE /* main.m */,
 				B2B5232216028137004686BE /* SupportingFiles */,
 			);
@@ -115,6 +119,7 @@
 		B2B5232216028137004686BE /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				6CAD25FC183C928700EC1AD4 /* Images.xcassets */,
 				B2B5232316028137004686BE /* InfoPlist.strings */,
 				B2B5232516028137004686BE /* neutron-Info.plist */,
 				B2B5232616028137004686BE /* neutron-Prefix.pch */,
@@ -175,7 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2B5232716028137004686BE /* InfoPlist.strings in Resources */,
-				6C9A7F2517EF837600032CF9 /* Default-568h@2x.png in Resources */,
+				6CAD25FD183C928700EC1AD4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +198,7 @@
 				B24F0C58160A0D16000081B8 /* SKDosimeterDataView.m in Sources */,
 				6CE368A717E66D9D00B937F3 /* SKDosimeterSessionController.m in Sources */,
 				6C0AA2EE183005B100585F7F /* DS18B20_owm.c in Sources */,
+				6CAD25CA183C655500EC1AD4 /* SKOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +285,8 @@
 		B2B5231B16027FC6004686BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "neutron/SupportingFiles/neutron-Prefix.pch";
 				INFOPLIST_FILE = "neutron/SupportingFiles/neutron-Info.plist";
@@ -291,6 +299,8 @@
 		B2B5231C16027FC6004686BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "neutron/SupportingFiles/neutron-Prefix.pch";
 				INFOPLIST_FILE = "neutron/SupportingFiles/neutron-Info.plist";

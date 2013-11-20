@@ -8,6 +8,7 @@
 #import "SKDosimeterSessionController.h"
 
 NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataReceivedNotification";
+NSString* SKDosimeterSessionReadyNotification = @"SKDosimeterSessionReadyNotification";
 
 @implementation SKDosimeterSessionController
 
@@ -18,46 +19,33 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
 
 - (void) requestTemperature {
     NSMutableData* data = [[NSMutableData alloc] init];
-    uint16_t op = (uint16_t) 0x4000;
+    uint16_t command = (uint16_t) 0x4000;
 
-    [data appendBytes:(void*)&op length:2];
-    [self writeData:data];
-}
-
-// low level write method - write data to the accessory while there is space available and data to write
-- (void)_writeData {
-    while (([[_session outputStream] hasSpaceAvailable]) && ([_writeData length] > 0))
-    {
-        NSLog(@"DATA to write: %d", [_writeData length]);
-        
-        NSInteger bytesWritten = [[_session outputStream] write:[_writeData bytes] maxLength:[_writeData length]];
-        
-        NSLog(@"DATA bytes written: %d", bytesWritten);
-        
-        if (bytesWritten == -1)
-        {
-            NSLog(@"write error");
-            break;
-        }
-        else if (bytesWritten > 0)
-        {
-             [_writeData replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+    [data appendBytes:(void*)&command length:2];
+    
+    if([[_session outputStream] hasSpaceAvailable] && !_waiting) {
+        _waiting = true;
+        NSLog(@"TEMPDATA to send/write: %d", [data length]);
+        NSInteger bytesWritten = [[_session outputStream] write:[data bytes] maxLength:[data length]];
+        NSLog(@"TEMPDATA bytes sent/written: %d", bytesWritten);
+        if (bytesWritten == -1) {
+            NSLog(@"requestTemperature() error");
         }
     }
 }
 
-// low level read method - read data while there is data and space available in the input buffer
-- (void) _readData {
-#define EAD_INPUT_BUFFER_SIZE 128
+- (void) readTemperature {
+    #define EAD_INPUT_BUFFER_SIZE 128
+    
+    if(!_waiting)
+        return;
+    
     uint8_t buf[EAD_INPUT_BUFFER_SIZE];
     while ([[_session inputStream] hasBytesAvailable])
     {
         NSInteger bytesRead = [[_session inputStream] read:buf maxLength:EAD_INPUT_BUFFER_SIZE];
-        if (_readData == nil) {
-            _readData = [[NSMutableData alloc] init];
-        }
-        [_readData appendBytes:(void *)buf length:bytesRead];
         NSLog(@"read %d bytes from input stream", bytesRead);
+        NSLog(@"read value: %i %i %i %i", buf[0], buf[1], buf[2], buf[3]);
     }
     
     NSLog(@"TEMPERATURE: %d", [self _humanReadeableTemperature: buf]);
@@ -65,8 +53,10 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
     NSDictionary* userInfo;
     userInfo = [NSDictionary dictionaryWithObject: [NSNumber numberWithInteger:[self _humanReadeableTemperature: buf]]
                                            forKey: @"Temperature"];
-
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:SKDosimeterSessionDataReceivedNotification object:self userInfo:userInfo];
+    
+    _waiting = false;
 }
 
 - (NSInteger) _humanReadeableTemperature:(uint8_t*)temperatureBytes {
@@ -94,13 +84,12 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
 - (void)dealloc
 {
     [self closeSession];
-
-    //[super dealloc];
 }
 
 // open a session with the accessory and set up the input and output stream on the default run loop
 - (BOOL)openSession: (EAAccessory *)accessory withProtocolString:(NSString *)protocolString
 {
+    _waiting = false;
     _accessory = accessory;
     _protocolString = protocolString;
     
@@ -125,7 +114,6 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
     return (_session != nil);
 }
 
-// close the session with the accessory.
 - (void)closeSession
 {
     [[_session inputStream] close];
@@ -134,49 +122,12 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
     [[_session outputStream] close];
     [[_session outputStream] removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [[_session outputStream] setDelegate:nil];
-
-    //[_session release];
     _session = nil;
-
-    //[_writeData release];
-    _writeData = nil;
-    //[_readData release];
-    _readData = nil;
-}
-
-// high level write data method
-- (void)writeData:(NSData *)data
-{
-    if (_writeData == nil) {
-        _writeData = [[NSMutableData alloc] init];
-    }
-
-    [_writeData appendData:data];
-    [self _writeData];
-}
-
-// high level read method 
-- (NSData *)readData:(NSUInteger)bytesToRead
-{
-    NSData *data = nil;
-    if ([_readData length] >= bytesToRead) {
-        NSRange range = NSMakeRange(0, bytesToRead);
-        data = [_readData subdataWithRange:range];
-        [_readData replaceBytesInRange:range withBytes:NULL length:0];
-    }
-    return data;
-}
-
-// get number of bytes read into local buffer
-- (NSUInteger)readBytesAvailable
-{
-    return [_readData length];
 }
 
 #pragma mark EAAccessoryDelegate
 - (void)accessoryDidDisconnect:(EAAccessory *)accessory
 {
-    // do something ...
 }
 
 #pragma mark NSStreamDelegateEventExtensions
@@ -190,12 +141,12 @@ NSString* SKDosimeterSessionDataReceivedNotification = @"SKDosimeterSessionDataR
         case NSStreamEventOpenCompleted:
             break;
         case NSStreamEventHasBytesAvailable: {
-            [self _readData];
+            [self readTemperature]; // Read from input stream
             break;
         }
         case NSStreamEventHasSpaceAvailable:
-            //[self _writeData];
-            [self requestTemperature];
+            //[[NSNotificationCenter defaultCenter] postNotificationName:SKDosimeterSessionReadyNotification object:self userInfo:nil];
+            //[self requestTemperature]; // Write to output stream
             break;
         case NSStreamEventErrorOccurred:
             break;

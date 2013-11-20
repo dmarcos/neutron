@@ -11,30 +11,25 @@
 #import "DS18B20_owm.h"
 
 extern NSString* SKDosimeterSessionDataReceivedNotification;
+extern NSString* SKDosimeterSessionReadyNotification;
 
 // NOTE: EADSessionController is not threadsafe, calling methods from different threads will lead to unpredictable results
 @interface SKDosimeterSessionController : NSObject <EAAccessoryDelegate, NSStreamDelegate> {
-    EAAccessory *_accessory;
-    EASession *_session;
-    NSString *_protocolString;
-
-    NSMutableData *_writeData;
-    NSMutableData *_readData;
+    EAAccessory* _accessory;
+    EASession* _session;
+    NSString* _protocolString;
+    
+    bool _waiting;
 }
 
 + (SKDosimeterSessionController*) sharedController;
 
-- (BOOL) openSession: (EAAccessory *)accessory withProtocolString:(NSString *)protocolString;
+- (BOOL) openSession: (EAAccessory*)accessory withProtocolString:(NSString *)protocolString;
 - (void) closeSession;
-
-- (void) writeData:(NSData *)data;
-
-- (NSUInteger) readBytesAvailable;
-- (NSData *) readData:(NSUInteger)bytesToRead;
 
 - (void) requestTemperature;
 
-@property (nonatomic, readonly) EAAccessory *accessory;
-@property (nonatomic, readonly) NSString *protocolString;
+@property (nonatomic, readonly) EAAccessory* accessory;
+@property (nonatomic, readonly) NSString* protocolString;
 
 @end

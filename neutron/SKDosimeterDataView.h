@@ -16,9 +16,8 @@
     SKDosimeterSessionController* _sessionController;
 }
 
+- (void) changeDeviceStatus: (BOOL) connected;
+
 @property int sensorTemperature;
-//@property int ambientTemperature;
-//@property int timeOverThreshold;
-//@property int timeStamp;
 
 @end
