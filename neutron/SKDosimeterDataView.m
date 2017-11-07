@@ -52,7 +52,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    _sensorTemperatureView.text = @"25\u00B0"; //[NSString stringWithFormat: @"%i\u00B0", _sensorTemperature];
+    _sensorTemperatureView.text = [NSString stringWithFormat: @"%i\u00B0", _sensorTemperature];
 }
 
 
